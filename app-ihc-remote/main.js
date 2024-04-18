@@ -1,5 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
+   // obtenerHistorial();
+    obtenerHistorialarray();
     const startBtn     = document.getElementById('start-btn');
     const resultDiv    = document.getElementById('result');
     const controlTexto = document.getElementById('controlTexto');
@@ -71,34 +73,44 @@ document.addEventListener('DOMContentLoaded', () => {
       startBtn.disabled = true;
     }
   });
-  
-
-  const guardarAccion = (accion) => {
-    const fechaHoraLocal = new Date();
-
-// Extraer la hora, minutos y segundos
-
-const hora = fechaHoraLocal.getHours();
-const minutos = fechaHoraLocal.getMinutes();
-const segundos = fechaHoraLocal.getSeconds();
-
-// Formatear la hora local como una cadena
-const horaLocalString = `${hora}:${minutos}:${segundos}`;
-
-
-    fetch('https://661801849a41b1b3dfbbf770.mockapi.io/historial', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            comando: accion, hora: horaLocalString
-        })
+  /*
+  const obtenerHistorial = () => {
+    fetch('https://661801849a41b1b3dfbbf770.mockapi.io/historial')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ocurrió un error al obtener el historial de acciones desde la API.');
+        }
+        return response.json();
     })
-    .then(response => response.json())
-    .then(data => console.log('Acción guardada en la API:', data))
-    .catch(error => console.error('Error al guardar la acción en la API:', error));
+    .then(data => {
+        // Aquí puedes hacer algo con los datos obtenidos, como mostrarlos en la página
+        console.log('Historial de acciones obtenido:', data);
+    })
+    .catch(error => console.error('Error al obtener el historial de acciones:', error));
+};
+*/
+
+
+const obtenerHistorialarray = () => {
+    fetch('https://661801849a41b1b3dfbbf770.mockapi.io/historial')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ocurrió un error al obtener el historial de acciones desde la API.');
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Imprimir los datos en la consola para verificar su formato
+        console.log('Historial de acciones obtenido:');
+        
+        // Aquí puedes hacer algo con los datos, como mostrarlos en la página
+        // Por ejemplo, puedes iterar sobre el array de historial y mostrar cada elemento
+        data.forEach(item => {
+            console.log('Comando:', item.comando);
+            console.log('Hora:', item.hora);
+        });
+    })
+    .catch(error => console.error('Error al obtener el historial de acciones:', error));
 };
 
-  // set interval : para quitar el boton: parametro nombre de funcion, tiempo que se va a repretir, 
-  //que pasaria si se ejecuta cada 2 segundo  y lo que hablo uspera los dos segundos, ya me pase de tiempo, 
+//quitar el formato json, convertirlo a arreglo 
